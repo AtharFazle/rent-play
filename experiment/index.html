@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mendeteksi Volume Mikrofon</title>
+</head>
+
+<body>
+  <h1>Mendeteksi Volume Mikrofon</h1>
+  <div id="volumeMeter"></div>
+  <script>
+    // Membuat objek audio context
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+    let maxPercentage = 0;
+    let visualPercentage = 0;
+    // Mendapatkan akses ke mikrofon
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(function (stream) {
+        // Membuat objek audio source dari stream mikrofon
+        const audioSource = audioContext.createMediaStreamSource(stream);
+
+        // Membuat objek analyser untuk menganalisis data audio
+        const analyser = audioContext.createAnalyser();
+        audioSource.connect(analyser);
+
+        // Mengatur ukuran buffer untuk analisis
+        analyser.fftSize = 256;
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+
+        // Mendapatkan referensi ke elemen HTML untuk menampilkan volume
+        const volumeMeter = document.getElementById("volumeMeter");
+
+        // Fungsi untuk mengupdate tampilan volume
+        function updateVolume() {
+          analyser.getByteFrequencyData(dataArray);
+
+          // Menghitung rata-rata volume
+          const averageVolume = dataArray.reduce((acc, value) => acc + value, 0) / bufferLength;
+
+          // Mengatur tinggi div volumeMeter sesuai dengan volume
+          let result = (averageVolume / 255) * 100;
+          if (result > maxPercentage) {
+            maxPercentage = result;
+            visualPercentage = normalize(maxPercentage);
+            if (visualPercentage >= 0) {
+              volumeMeter.innerHTML = visualPercentage.toFixed(2);
+            }
+          }
+          
+          console.log(result);
+
+
+          // Memanggil fungsi updateVolume secara rekursif untuk animasi
+          requestAnimationFrame(updateVolume);
+        }
+
+        // Memulai animasi
+        updateVolume();
+      })
+      .catch(function (err) {
+        console.error("Error accessing microphone:", err);
+      });
+
+      function normalize(nilaiAsli) {
+        // Contoh: Normalisasi angka dari rentang 30-70 ke rentang 0-100
+        const batasBawah = 30;
+        const rentangNilaiAwal = 70 - 30;
+        const rentangNormalisasi = 100;
+        return ((nilaiAsli - batasBawah) / rentangNilaiAwal) * rentangNormalisasi;
+      }
+
+
+  </script>
+</body>
+
+</html>
