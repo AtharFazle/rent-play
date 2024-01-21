@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Clip Path Ice Cream */
+.masking {
+  /* -webkit-clip-path: url("/public/assets/eskrim-transparan-crop.png");
+  clip-path: url("/public/assets/eskrim-transparan-crop.png"); */
+}
