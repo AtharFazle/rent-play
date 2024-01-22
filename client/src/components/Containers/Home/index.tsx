@@ -96,9 +96,8 @@ const ContainerHome: FC = () => {
 
       {/* Modal Game Start */}
       <div
-        className={`${
-          isOpen ? 'block' : 'hidden'
-        } absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-50`}
+        className={`${isOpen ? 'block' : 'hidden'
+          } absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-50`}
       >
         <div className="bg-black/70 w-screen h-screen" />
         <ModalGameStart
@@ -112,9 +111,8 @@ const ContainerHome: FC = () => {
 
       {/* Modal Game Over */}
       <div
-        className={`${
-          isGameOver ? 'block' : 'hidden'
-        } absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-50`}
+        className={`${isGameOver ? 'block' : 'hidden'
+          } absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-50`}
       >
         <div className="bg-black/70 w-screen h-screen" />
         <ModalGameOver toggle={toggleGameOver} />
@@ -127,16 +125,17 @@ const ContainerHome: FC = () => {
             <CountdownTimer
               initialSeconds={3600}
               toggleGameOver={toggleGameOver}
+
             />
           </div>
 
-          <div className="absolute top-80 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center mx-auto z-50">
+          {/* <div className="absolute top-80 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center mx-auto z-50">
             <p>name player = {namePlayer}</p>
             <p>game start? {isGameStart ? 'true' : 'false'}</p>
             <p>game over? {isGameOver ? 'true' : 'false'}</p>
             <p>skor? {score}</p>
             <div id="volumeMeter"></div>
-          </div>
+          </div> */}
 
           <div>
             <img
